@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+
+##############
+# Main Nginx
+##############
+
+  nginx:
+    build: .
+    container_name: nginx
+    hostname: nginx
+    restart: always
+    ports:
+      - "8888:8888"
+    networks:
+      - compose_bridge
+    volumes:
+      - ./proxy_client.conf:/etc/nginx/conf.d/proxy_client.conf
+      # - ./auth:/etc/nginx/auth  passwd file for basic auth
+networks:
+  compose_bridge:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet:  172.25.0.0/16
